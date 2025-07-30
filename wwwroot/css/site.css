@@ -1,0 +1,137 @@
+body {
+    display: flex;
+    height: 100vh; /* Altura total da viewport */
+    margin: 0;
+    overflow: hidden; /* Evita scroll no body, os painéis terão o seu */
+    flex-direction: column; /* Para a navbar, o container-fluid e o footer */
+}
+
+header {
+    /* Se sua navbar for parte do body flex, ela precisará de flex-shrink: 0; */
+    flex-shrink: 0; /* Impede que a navbar encolha */
+}
+
+.container-fluid {
+    display: flex; /* Transforma o container-fluid em um flex container para .left-panel e .main-content */
+    flex-grow: 1; /* Permite que o container-fluid ocupe o espaço restante */
+    overflow: hidden; /* Garante que o container-fluid não tenha scroll */
+}
+
+.left-panel {
+    width: 250px; /* Largura fixa para o painel lateral */
+    padding: 15px;
+    background-color: #f8f8f8;
+    border-right: 1px solid #ccc;
+    overflow-y: auto; /* Adiciona scroll se o conteúdo do painel lateral for maior que a altura */
+    flex-shrink: 0; /* Impede que o painel lateral encolha */
+}
+
+.main-content {
+    flex-grow: 1; /* Ocupa o restante do espaço horizontal */
+    padding: 15px;
+    display: flex; /* Transforma o main-content em um flex container */
+    flex-direction: column; /* Organiza seus filhos verticalmente */
+    overflow: hidden; /* Garante que o main-content não gere scroll principal */
+}
+
+.data-grid-container {
+    flex-grow: 1; /* Permite que o container da grid ocupe o máximo de espaço vertical disponível dentro de main-content */
+    overflow-y: auto; /* MUITO IMPORTANTE: Adiciona barra de rolagem APENAS para o conteúdo da grid */
+    border: 1px solid #ddd; /* Borda para visualização da área da grid */
+    margin-bottom: 15px; /* Espaço entre a grid e o próximo bloco */
+    background-color: #fff; /* Fundo branco para a grid */
+}
+
+table.data-grid {
+    width: 100%;
+    border-collapse: collapse; /* Para unir as bordas das células */
+    font-size: 0.9em; /* Tamanho da fonte para a grid */
+    /* Remover 'height: 26193.4px;' ou qualquer altura fixa que possa ter sido adicionada */
+}
+
+    table.data-grid th,
+    table.data-grid td {
+        padding: 8px 12px;
+        border: 1px solid #ddd; /* Bordas para as células */
+        text-align: left;
+        white-space: nowrap; /* Impede que o texto quebre linhas, mantendo a largura da coluna */
+        overflow: hidden; /* Oculta o conteúdo que excede a largura da célula */
+        text-overflow: ellipsis; /* Adiciona "..." para o texto oculto */
+    }
+
+    table.data-grid th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    table.data-grid tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Cor para linhas pares */
+    }
+
+    table.data-grid tbody tr:hover {
+        background-color: #e0e0e0; /* Cor ao passar o mouse */
+        cursor: pointer;
+    }
+
+    /* Estilos de Status (cores das linhas) */
+    table.data-grid tr.separado {
+        background-color: #ffcccc; /* Vermelho claro */
+    }
+
+    table.data-grid tr.conferido {
+        background-color: #ccffcc; /* Verde claro */
+    }
+
+    table.data-grid tr.nao-iniciado {
+        background-color: #ffffcc; /* Amarelo claro */
+    }
+
+    table.data-grid tr.em-separacao {
+        background-color: #ccccff; /* Azul claro */
+    }
+
+/* Estilos para o bloco de informações e legenda (horizontal) */
+.bottom-panels { /* NOVO: Agrupa os dois painéis inferiores */
+    display: flex;
+    justify-content: space-between; /* Espaça os elementos */
+    align-items: flex-start; /* Alinha no topo */
+    margin-bottom: 15px;
+    flex-shrink: 0; /* Impede que este bloco encolha */
+}
+
+.info-panel {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex-basis: 60%; /* Ocupa cerca de 60% da largura */
+    /* Remova margin-bottom se já estiver dentro de .bottom-panels */
+}
+
+.legend-panel {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    flex-basis: 35%; /* Ocupa cerca de 35% da largura */
+    margin-left: 15px; /* Espaçamento entre os painéis */
+    flex-shrink: 0; /* Impede que a legenda encolha */
+}
+
+/* Container para os campos de filtro e botões */
+.filter-controls {
+    display: flex; /* Organiza os elementos horizontalmente */
+    align-items: flex-end; /* Alinha os itens na parte inferior */
+    gap: 10px; /* Espaço entre os elementos */
+    margin-top: 15px; /* Espaço acima do bloco de controle */
+    flex-shrink: 0; /* Impede que este bloco encolha */
+}
+
+    .filter-controls .form-group {
+        margin-bottom: 0; /* Remove margem inferior padrão do bootstrap para alinhamento */
+        flex-grow: 1; /* Permite que os grupos de formulário cresçam */
+    }
+
+    .filter-controls .form-control {
+        width: 100%; /* Ocupa a largura total do grupo */
+    }

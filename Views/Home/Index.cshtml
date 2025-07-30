@@ -1,0 +1,140 @@
+﻿@model Carregamentos.Models.CarregamentoViewModel
+
+@{
+    ViewData["Title"] = "Carregamentos";
+}
+
+<div class="d-flex flex-grow-1">
+    <div class="left-panel">
+        <h5 class="mt-3">Carregamento</h5>
+        <ul class="list-group">
+            @foreach (var rota in Model.RotasAgrupadas)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    data-rota-id="@rota.Key"
+                    onclick="window.carregarDados('@rota.Key')">
+                    @rota.Key: R$ @rota.Value.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="data-grid-container">
+            <table class="data-grid">
+                <thead>
+                    <tr>
+                        <th>Pedido</th>
+                        <th>Cod. Cliente</th>
+                        <th>Cliente</th>
+                        <th>Data Pedido</th>
+                        <th>Data Lib.</th>
+                        <th>Data Mont.</th>
+                        <th>Destino</th>
+                        <th>Nome Cidade</th>
+                        <th>VI Atendido</th>
+                        <th>Status</th>
+                        <th>Rota</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Pedidos)
+                    {
+                        <tr data-numped="@item.Numped" class="@item.StatusCarregamento?.ToLower()" data-rota="@item.Rota">
+                            <td>@item.Numped</td>
+                            <td>@item.CodCli</td>
+                            <td>@item.Cliente</td>
+                            <td>@item.DataPedido</td>
+                            <td>@item.DataLiberacao</td>
+                            <td>@item.DataMontagem</td>
+                            <td>@item.Destino</td>
+                            <td>@item.NomeCidade</td>
+                            <td>@item.VlAtend?.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))</td>
+                            <td>@item.StatusCarregamento</td>
+                            <td>@item.Rota</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="bottom-panels">
+            <div class="info-panel">
+                <h6>Carregamento</h6>
+                <label>Valor a Pagar na Rota: R$ <span id="valorPagarRota">@Model.ValorPagarRota.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span></label>
+                <label>Rota Selecionada: <span id="rotaSelecionada">@Model.RotaSelecionada</span></label>
+                <label>Total da Rota (VL.ATEND): R$ <span id="totalVlAtend">@Model.TotalVlAtend.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span></label>
+                <label>Porcentagem Frete (%): <span id="porcentagemFrete">@Model.PorcentagemFrete.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span>%</label>
+            </div>
+
+            <div class="legend-panel">
+                <h6>Legenda</h6>
+                <div class="legend-item"><span class="legend-color-box separado"></span>Separado</div>
+                <div class="legend-item"><span class="legend-color-box conferido"></span>Conferido</div>
+                <div class="legend-item"><span class="legend-color-box nao-iniciado"></span>Não_iniciado</div>
+                <div class="legend-item"><span class="legend-color-box em-separacao"></span>Em_Separacao</div>
+            </div>
+        </div>
+
+        <div class="filter-controls">
+            <div class="form-group">
+                <label for="numpedFilter">Número do Pedido:</label>
+                <input type="text" id="numpedFilter" class="form-control" placeholder="Digite o NUMPED" value="@Model.NumPedFilter" />
+            </div>
+            <button id="filterButton" class="btn btn-primary mt-auto">Filtrar</button>
+
+            <div class="form-group ms-auto">
+                <label for="valorFrete">Valor do Frete (R$):</label>
+                <input type="number" id="valorFrete" class="form-control" value="@Model.ValorFrete.ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+            </div>
+            <button id="calculateButton" class="btn btn-info mt-auto">Calcular</button>
+            <button id="carregarDadosButton" class="btn btn-primary mt-auto">Carregar Dados</button>
+        </div>
+
+        <div id="statusMessage" class="success-message" style="display: none;">
+            Dados carregados com sucesso!
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="itemPedidoModal" tabindex="-1" aria-labelledby="itemPedidoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemPedidoModalLabel">Itens do Pedido: <span id="modalNumPed"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="data-grid-container">
+                    <table class="data-grid" id="itensPedidoTable">
+                        <thead>
+                            <tr>
+                                <th>Cod. Produto</th>
+                                <th>Descrição</th>
+                                <th>Qtde</th>
+                                <th>P. Venda</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @* Os dados do modal são carregados via JS *@
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#numpedFilter').val('@(Model.NumPedFilter ?? "")');
+            $('#valorFrete').val('@(Model.ValorFrete.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0")');
+            $('#rotaSelecionada').text('@(Model.RotaSelecionada ?? "Nenhuma rota selecionada")');
+        });
+    </script>
+}
