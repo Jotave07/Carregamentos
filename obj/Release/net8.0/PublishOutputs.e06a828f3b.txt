@@ -1,0 +1,9 @@
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Carregamentos.exe
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\appsettings.Development.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\appsettings.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Carregamentos.dll
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Carregamentos.deps.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Carregamentos.runtimeconfig.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Carregamentos.pdb
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Newtonsoft.Json.dll
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\publish\Oracle.ManagedDataAccess.dll

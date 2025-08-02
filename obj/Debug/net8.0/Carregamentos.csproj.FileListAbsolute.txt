@@ -67,7 +67,6 @@ C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - 
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\Carregam.CD118265.Up2Date
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\Carregamentos.dll
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\refint\Carregamentos.dll
