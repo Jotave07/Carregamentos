@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Carregamentos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01a076afeab5600a9261389803a43ed0721059b5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Carregamentos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Carregamentos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

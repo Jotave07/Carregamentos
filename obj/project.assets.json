@@ -332,23 +332,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\logistica\\.nuget\\packages\\": {},
+    "C:\\Users\\logistica2\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\logistica\\Desktop\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\Carregamentos.csproj",
+      "projectUniqueName": "C:\\Users\\logistica2\\Desktop\\Desenvolvimento\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\Carregamentos.csproj",
       "projectName": "Carregamentos",
-      "projectPath": "C:\\Users\\logistica\\Desktop\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\Carregamentos.csproj",
-      "packagesPath": "C:\\Users\\logistica\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\logistica\\Desktop\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\obj\\",
+      "projectPath": "C:\\Users\\logistica2\\Desktop\\Desenvolvimento\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\Carregamentos.csproj",
+      "packagesPath": "C:\\Users\\logistica2\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\logistica2\\Desktop\\Desenvolvimento\\Carregamentos - web\\Carregamentos - v1\\Carregamentos\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\logistica\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\logistica2\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -409,7 +409,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   },

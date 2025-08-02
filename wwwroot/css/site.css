@@ -1,9 +1,13 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
-    height: 100vh; /* Altura total da viewport */
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
-    overflow: hidden; /* Evita scroll no body, os painéis terão o seu */
-    flex-direction: column; /* Para a navbar, o container-fluid e o footer */
+    /* Remova overflow: hidden */
 }
 
 header {
@@ -12,30 +16,35 @@ header {
 }
 
 .container-fluid {
-    display: flex; /* Transforma o container-fluid em um flex container para .left-panel e .main-content */
-    flex-grow: 1; /* Permite que o container-fluid ocupe o espaço restante */
-    overflow: hidden; /* Garante que o container-fluid não tenha scroll */
+    display: flex;
+    flex-grow: 1;
+    min-height: 0;
+    /* Remova height: calc(100vh - 56px) */
+    /* Remova overflow: hidden */
 }
 
 .left-panel {
-    width: 250px; /* Largura fixa para o painel lateral */
+    width: 250px;
     padding: 15px;
     background-color: #f8f8f8;
     border-right: 1px solid #ccc;
-    overflow-y: auto; /* Adiciona scroll se o conteúdo do painel lateral for maior que a altura */
-    flex-shrink: 0; /* Impede que o painel lateral encolha */
+    overflow-y: auto;
+    flex-shrink: 0;
+    /* Remova height: 100% e max-height: none */
 }
 
 .main-content {
-    flex-grow: 1; /* Ocupa o restante do espaço horizontal */
+    flex-grow: 1;
     padding: 15px;
-    display: flex; /* Transforma o main-content em um flex container */
-    flex-direction: column; /* Organiza seus filhos verticalmente */
-    overflow: hidden; /* Garante que o main-content não gere scroll principal */
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    /* Remova height: 100% */
 }
 
 .data-grid-container {
-    flex-grow: 1; /* Permite que o container da grid ocupe o máximo de espaço vertical disponível dentro de main-content */
+    flex-grow: 1;
+    min-height: 0; /* Permite que a grid cresça e tenha rolagem */
     overflow-y: auto; /* MUITO IMPORTANTE: Adiciona barra de rolagem APENAS para o conteúdo da grid */
     border: 1px solid #ddd; /* Borda para visualização da área da grid */
     margin-bottom: 15px; /* Espaço entre a grid e o próximo bloco */
@@ -68,7 +77,7 @@ table.data-grid {
         background-color: #f9f9f9; /* Cor para linhas pares */
     }
 
-    table.data-grid tbody tr:hover {
+    table.data-grid<tbody tr:hover {
         background-color: #e0e0e0; /* Cor ao passar o mouse */
         cursor: pointer;
     }
@@ -95,7 +104,8 @@ table.data-grid {
     display: flex;
     justify-content: space-between; /* Espaça os elementos */
     align-items: flex-start; /* Alinha no topo */
-    margin-bottom: 15px;
+    margin-top: 30px; /* aumenta o espaçamento superior */
+    margin-bottom: 0;
     flex-shrink: 0; /* Impede que este bloco encolha */
 }
 
@@ -105,8 +115,16 @@ table.data-grid {
     border: 1px solid #ddd;
     border-radius: 5px;
     flex-basis: 60%; /* Ocupa cerca de 60% da largura */
-    /* Remova margin-bottom se já estiver dentro de .bottom-panels */
+    display: flex;
+    flex-direction: column; /* Alinha labels verticalmente */
+    gap: 8px; /* Espaço entre as labels */
 }
+
+    .info-panel label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0;
+    }
 
 .legend-panel {
     background-color: #f8f8f8;
@@ -123,7 +141,7 @@ table.data-grid {
     display: flex; /* Organiza os elementos horizontalmente */
     align-items: flex-end; /* Alinha os itens na parte inferior */
     gap: 10px; /* Espaço entre os elementos */
-    margin-top: 15px; /* Espaço acima do bloco de controle */
+    margin-bottom: 0; /* Remove espaço extra abaixo */
     flex-shrink: 0; /* Impede que este bloco encolha */
 }
 
@@ -135,3 +153,47 @@ table.data-grid {
     .filter-controls .form-control {
         width: 100%; /* Ocupa a largura total do grupo */
     }
+
+html, body {
+    height: 100%;
+}
+
+body {
+    overflow: auto;
+}
+
+/* wwwroot/css/site.css */
+.tabela-scroll {
+    max-height: 680px; /* ajuste conforme necessário */
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    background: #fff;
+}
+.tabela-scroll table {
+    width: 100%; /* Garante que a tabela ocupe toda a largura do container */
+    border-collapse: collapse; /* Para unir as bordas das células */
+}
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+.legend-color-box {
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+    display: inline-block;
+}
+.legend-color-box.separado { background: #ffcccc; }
+.legend-color-box.conferido { background: #ccffcc; }
+.legend-color-box.nao-iniciado { background: #ffffcc; }
+.legend-color-box.em-separacao { background: #ccccff; }
+.selected-row {
+    background-color: #ffe0b2 !important; /* Laranja claro, ajuste como preferir */
+}
+.selected-destino {
+    background-color: #b3d7ff !important; /* Azul claro, ajuste como preferir */
+    font-weight: bold;
+}

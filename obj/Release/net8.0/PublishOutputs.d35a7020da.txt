@@ -1,0 +1,9 @@
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Carregamentos.exe
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\appsettings.Development.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\appsettings.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Carregamentos.dll
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Carregamentos.deps.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Carregamentos.runtimeconfig.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Carregamentos.pdb
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Release\net8.0\PubTmp\Out\Oracle.ManagedDataAccess.dll

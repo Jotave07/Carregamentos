@@ -1,129 +1,215 @@
 ﻿@model Carregamentos.Models.CarregamentoViewModel
 
 @{
-    ViewData["Title"] = "Carregamentos";
+    ViewData["Title"] = "Página Principal";
 }
 
-<div class="d-flex flex-grow-1">
-    <div class="left-panel">
-        <h5 class="mt-3">Carregamento</h5>
-        <ul class="list-group">
+<style>
+    .container-flex {
+        display: flex;
+        gap: 20px;
+        padding: 10px;
+        height: 85vh;
+    }
+
+    .panel {
+        background: #f9f9f9;
+        border-radius: 5px;
+        padding: 15px;
+        box-shadow: 0 0 10px #ccc;
+    }
+
+    .left-panel {
+        width: 300px;
+        overflow-y: auto;
+        max-height: 100%;
+        border-right: 1px solid #ddd;
+    }
+
+        .left-panel ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .left-panel li {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+
+            .left-panel li:hover, .left-panel li.selected {
+                background-color: #007bff;
+                color: white;
+            }
+
+    .right-panel {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+    }
+
+    .filter-bar {
+        margin-bottom: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+    }
+
+        .filter-bar input {
+            flex-grow: 1;
+            padding: 6px 10px;
+            font-size: 1rem;
+        }
+
+        .filter-bar button {
+            padding: 6px 14px;
+        }
+
+    .table-container {
+        overflow-y: auto;
+        flex-grow: 1;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+
+    th, td {
+        padding: 8px 6px;
+        border: 1px solid #ccc;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    .summary-panel {
+        margin-top: 10px;
+        background: #e9ecef;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+    }
+
+        .summary-panel label {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+    .frete-calc {
+        margin-top: 10px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+        .frete-calc input {
+            width: 120px;
+            padding: 5px 8px;
+        }
+
+    .frete-result {
+        margin-top: 6px;
+        font-weight: bold;
+    }
+
+    .general-summary-panel {
+        margin-top: 20px;
+        background: #e1efff;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        font-size: 0.95rem;
+    }
+
+        .general-summary-panel h5 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+
+        .general-summary-panel p {
+            margin-bottom: 5px;
+        }
+
+        .general-summary-panel strong {
+            color: #333;
+        }
+</style>
+
+<div class="container-flex">
+    <div class="panel left-panel">
+        <h4>Destinos e Valores</h4>
+        <ul id="destinosList">
             @foreach (var rota in Model.RotasAgrupadas)
             {
-                <li class="list-group-item d-flex justify-content-between align-items-center"
-                    data-rota-id="@rota.Key"
-                    onclick="window.carregarDados('@rota.Key')">
-                    @rota.Key: R$ @rota.Value.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))
+                <li data-destino="@rota.Key" data-valor-display="@rota.Value.ToString("C")" data-valor-numerico="@rota.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)" class="rota-item">
+                    @rota.Key - @rota.Value.ToString("C")
                 </li>
             }
         </ul>
     </div>
 
-    <div class="main-content">
-        <div class="data-grid-container">
-            <table class="data-grid">
+    <div class="panel right-panel">
+        <div class="filter-bar">
+            <input type="text" id="pedidoSearch" placeholder="Buscar pedido por número..." />
+            <button id="btnBuscarPedido" class="btn btn-primary">Buscar</button>
+            <button id="btnLimparFiltro" class="btn btn-secondary">Limpar</button>
+        </div>
+
+        <div class="table-container">
+            <table id="pedidosTable">
                 <thead>
                     <tr>
-                        <th>Pedido</th>
-                        <th>Cod. Cliente</th>
+                        <th>Número Pedido</th>
                         <th>Cliente</th>
                         <th>Data Pedido</th>
-                        <th>Data Lib.</th>
-                        <th>Data Mont.</th>
+                        <th>Data Liberação</th>
+                        <th>Data Montagem</th>
                         <th>Destino</th>
-                        <th>Nome Cidade</th>
-                        <th>VI Atendido</th>
-                        <th>Status</th>
+                        <th>Status Carregamento</th>
+                        <th>Valor Atendido</th>
                         <th>Rota</th>
+                        <th>Bairro</th>
+                        <th>UF</th>
+                        <th>Praça</th>
+                        <th>Posição</th>
+                        <th>Tipo Pedido</th>
+                        <th>RCA</th>
+                        <th>NumCar</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Pedidos)
-                    {
-                        <tr data-numped="@item.Numped" class="@item.StatusCarregamento?.ToLower()" data-rota="@item.Rota">
-                            <td>@item.Numped</td>
-                            <td>@item.CodCli</td>
-                            <td>@item.Cliente</td>
-                            <td>@item.DataPedido</td>
-                            <td>@item.DataLiberacao</td>
-                            <td>@item.DataMontagem</td>
-                            <td>@item.Destino</td>
-                            <td>@item.NomeCidade</td>
-                            <td>@item.VlAtend?.ToString("C2", new System.Globalization.CultureInfo("pt-BR"))</td>
-                            <td>@item.StatusCarregamento</td>
-                            <td>@item.Rota</td>
-                        </tr>
-                    }
                 </tbody>
             </table>
         </div>
 
-        <div class="bottom-panels">
-            <div class="info-panel">
-                <h6>Carregamento</h6>
-                <label>Valor a Pagar na Rota: R$ <span id="valorPagarRota">@Model.ValorPagarRota.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span></label>
-                <label>Rota Selecionada: <span id="rotaSelecionada">@Model.RotaSelecionada</span></label>
-                <label>Total da Rota (VL.ATEND): R$ <span id="totalVlAtend">@Model.TotalVlAtend.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span></label>
-                <label>Porcentagem Frete (%): <span id="porcentagemFrete">@Model.PorcentagemFrete.ToString("N2", new System.Globalization.CultureInfo("pt-BR"))</span>%</label>
+        <div class="summary-panel" id="summaryPanel" style="display:none;">
+            <h5>Resumo da Rota: <span id="rotaSelecionadaResumo"></span></h5>
+            <label>Total de Pedidos: <span id="totalPedidosResumo"></span></label>
+            <label>Pedidos Conferidos: <span id="pedidosConferidosResumo"></span></label>
+            <label>Percentual Conferido: <span id="percentConferidoResumo"></span>%</label>
+            <label>Valor Total: <span id="valorTotalResumo"></span></label>
+            <div class="frete-calc">
+                <label for="valorFreteInput">Valor Frete:</label>
+                <input type="number" id="valorFreteInput" min="0" step="0.01" />
             </div>
+            <div class="frete-result" id="resultadoFrete"></div>
 
-            <div class="legend-panel">
-                <h6>Legenda</h6>
-                <div class="legend-item"><span class="legend-color-box separado"></span>Separado</div>
-                <div class="legend-item"><span class="legend-color-box conferido"></span>Conferido</div>
-                <div class="legend-item"><span class="legend-color-box nao-iniciado"></span>Não_iniciado</div>
-                <div class="legend-item"><span class="legend-color-box em-separacao"></span>Em_Separacao</div>
-            </div>
         </div>
 
-        <div class="filter-controls">
-            <div class="form-group">
-                <label for="numpedFilter">Número do Pedido:</label>
-                <input type="text" id="numpedFilter" class="form-control" placeholder="Digite o NUMPED" value="@Model.NumPedFilter" />
-            </div>
-            <button id="filterButton" class="btn btn-primary mt-auto">Filtrar</button>
-
-            <div class="form-group ms-auto">
-                <label for="valorFrete">Valor do Frete (R$):</label>
-                <input type="number" id="valorFrete" class="form-control" value="@Model.ValorFrete.ToString(System.Globalization.CultureInfo.InvariantCulture)" />
-            </div>
-            <button id="calculateButton" class="btn btn-info mt-auto">Calcular</button>
-            <button id="carregarDadosButton" class="btn btn-primary mt-auto">Carregar Dados</button>
-        </div>
-
-        <div id="statusMessage" class="success-message" style="display: none;">
-            Dados carregados com sucesso!
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="itemPedidoModal" tabindex="-1" aria-labelledby="itemPedidoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="itemPedidoModalLabel">Itens do Pedido: <span id="modalNumPed"></span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="data-grid-container">
-                    <table class="data-grid" id="itensPedidoTable">
-                        <thead>
-                            <tr>
-                                <th>Cod. Produto</th>
-                                <th>Descrição</th>
-                                <th>Qtde</th>
-                                <th>P. Venda</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @* Os dados do modal são carregados via JS *@
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <div class="general-summary-panel" id="generalSummaryPanel">
+            <h5>Resumo Geral de Pedidos</h5>
+            <p><strong>Valor Total Atendido (Geral):</strong> <span id="generalTotalValue"></span></p>
+            <p><strong>Total de Pedidos (Geral):</strong> <span id="generalTotalOrders"></span></p>
+            <h6>Valores por Status de Carregamento:</h6>
+            <div id="statusValueSummary">
             </div>
         </div>
     </div>
@@ -131,10 +217,250 @@
 
 @section Scripts {
     <script>
-        $(function () {
-            $('#numpedFilter').val('@(Model.NumPedFilter ?? "")');
-            $('#valorFrete').val('@(Model.ValorFrete.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "0")');
-            $('#rotaSelecionada').text('@(Model.RotaSelecionada ?? "Nenhuma rota selecionada")');
+        let allPedidosData = [];
+
+        function parseCurrencyToFloat(currencyStr) {
+            if (typeof currencyStr === 'number') {
+                return currencyStr;
+            }
+            if (!currencyStr || typeof currencyStr !== 'string') {
+                return 0;
+            }
+
+            // Remova 'R$' e espaços, e substitua vírgulas por pontos para parseFloat
+            let cleanedStr = currencyStr.replace(/R\$\s*/g, '').replace(/\./g, '').replace(/,/g, '.').trim();
+
+            const parsedValue = parseFloat(cleanedStr);
+
+            return isNaN(parsedValue) ? 0 : parsedValue;
+        }
+
+        function formatDateBR(dateStr) {
+            if (!dateStr) return "-";
+            let d = new Date(dateStr);
+            if (isNaN(d.getTime())) return dateStr;
+            return d.toLocaleDateString('pt-BR');
+        }
+
+        // Função para normalizar nomes de propriedades para camelCase
+        function normalizePedidoProperties(p) {
+            return {
+                // Normaliza VLATEND para número e trata diferentes nomes de propriedade
+                // Adicione p.VlAtend (com 'l' minúsculo) aqui
+                VLATEND: parseCurrencyToFloat(p.VLATEND || p.VL_ATENDIDO || p.VlAtend),
+                // Normaliza StatusCarregamento para o nome consistente 'StatusCarregamento'
+                StatusCarregamento: p.STATUS_CARREGAMENTO || p.StatusCarregamento || '',
+                Numped: p.Numped || p.NUMPED || '',
+                Cliente: p.Cliente || p.CLIENTE || '',
+                DataPedido: p.DataPedido || p.DATA_PEDIDO,
+                DataLiberacao: p.DataLiberacao || p.DATA_LIBERACAO,
+                DataMontagem: p.DataMontagem || p.DATA_MONTAGEM,
+                Destino: p.Destino || p.DESTINO || '',
+                Rota: p.Rota || p.ROTA || '',
+                Bairro: p.Bairro || p.BAIRRO || '',
+                Uf: p.Uf || p.UF || '',
+                Praca: p.Praca || p.PRACA || '',
+                Posicao: p.Posicao || p.POSICAO || '',
+                TipoPedido: p.TipoPedido || p.TIPO_PEDIDO || '',
+                Rca: p.Rca || p.RCA || '',
+                NumCar: p.NumCar || p.NUMCAR || ''
+            };
+        }
+
+        function renderPedidos(pedidosToRender) {
+            let tbody = $("#pedidosTable tbody");
+            tbody.empty();
+
+            if (!pedidosToRender || pedidosToRender.length === 0) {
+                tbody.append('<tr><td colspan="16" style="text-align:center;">Nenhum pedido encontrado</td></tr>');
+                return;
+            }
+
+            pedidosToRender.forEach(p => {
+                // Use p.VLATEND (tudo maiúsculo) para acessar a propriedade normalizada
+                const vlAtendValue = p.VLATEND;
+                // Formate o valor para moeda brasileira
+                const vlAtendFormatted = typeof vlAtendValue === 'number' ?
+                                         vlAtendValue.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) :
+                                         'R$ 0,00'; // Fallback caso não seja um número
+
+                tbody.append(`<tr>
+                    <td>${p.Numped}</td>
+                    <td>${p.Cliente}</td>
+                    <td>${formatDateBR(p.DataPedido)}</td>
+                    <td>${formatDateBR(p.DataLiberacao)}</td>
+                    <td>${formatDateBR(p.DataMontagem)}</td>
+                    <td>${p.Destino}</td>
+                    <td>${p.StatusCarregamento}</td>
+                    <td>${vlAtendFormatted}</td>
+                    <td>${p.Rota}</td>
+                    <td>${p.Bairro}</td>
+                    <td>${p.Uf}</td>
+                    <td>${p.Praca}</td>
+                    <td>${p.Posicao}</td>
+                    <td>${p.TipoPedido}</td>
+                    <td>${p.Rca}</td>
+                    <td>${p.NumCar}</td>
+                </tr>`);
+            });
+        }
+
+        function atualizarResumo(pedidosDaRota, rotaNome, valorTotalRotaDisplay, valorTotalRotaNumerico) {
+            if (!pedidosDaRota || pedidosDaRota.length === 0) {
+                $("#summaryPanel").hide();
+                return;
+            }
+
+            const total = pedidosDaRota.length;
+            const conferidos = pedidosDaRota.filter(p => p.StatusCarregamento && p.StatusCarregamento.toLowerCase() === 'conferido').length;
+            const percentual = total > 0 ? ((conferidos / total) * 100).toFixed(2) : 0;
+
+            $("#summaryPanel").show();
+            $("#rotaSelecionadaResumo").text(rotaNome);
+            $("#totalPedidosResumo").text(total);
+            $("#pedidosConferidosResumo").text(conferidos);
+            $("#percentConferidoResumo").text(percentual);
+            $("#valorTotalResumo").text(valorTotalRotaDisplay);
+            $("#resultadoFrete").text("");
+            $("#valorFreteInput").val("");
+
+            $("#valorFreteInput").off('input').on('input', function () {
+                const valorFrete = parseFloat($(this).val());
+                if (isNaN(valorFrete) || valorFrete <= 0 || valorTotalRotaNumerico === 0) {
+                    $("#resultadoFrete").text("");
+                    return;
+                }
+                const percentualFrete = ((valorFrete / valorTotalRotaNumerico) * 100).toFixed(2);
+                $("#resultadoFrete").text(`Percentual do frete sobre o valor total: ${percentualFrete}%`);
+            });
+        }
+
+        function atualizarResumoGeral(allCurrentPedidos) {
+            const totalGeralPedidos = allCurrentPedidos.length;
+
+            const valorTotalAtendidoGeral = allCurrentPedidos.reduce((sum, p) => sum + (p.VLATEND || 0), 0);
+
+            $("#generalTotalValue").text(valorTotalAtendidoGeral.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }));
+            $("#generalTotalOrders").text(totalGeralPedidos);
+
+            const statusSummary = {};
+            allCurrentPedidos.forEach(p => {
+                const status = (p.StatusCarregamento && p.StatusCarregamento.trim() !== '') ? p.StatusCarregamento.trim() : 'Não Informado';
+                const vlAtend = (p.VLATEND || 0);
+
+                if (!statusSummary[status]) {
+                    statusSummary[status] = { count: 0, value: 0 };
+                }
+                statusSummary[status].count++;
+                statusSummary[status].value += vlAtend;
+            });
+
+            let statusHtml = '';
+            Object.keys(statusSummary).sort().forEach(status => {
+                statusHtml += `<p><strong>${status}:</strong> ${statusSummary[status].count} pedidos - ${statusSummary[status].value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>`;
+            });
+            $("#statusValueSummary").html(statusHtml);
+        }
+
+        function carregarPedidos(filtro = null, valorRotaDisplay = '', valorRotaNumerico = 0) {
+            let url = '@Url.Action("GetPedidos", "Pedido")';
+            let params = {};
+
+            if (filtro) {
+                params.filtro = filtro;
+            }
+
+            $.getJSON(url, params, function (data) {
+                console.log("Dados recebidos da API para carregarPedidos (brutos):", data);
+
+                // Normaliza os dados vindos da API antes de usar
+                const processedData = data.map(p => normalizePedidoProperties(p));
+                console.log("Dados recebidos da API para carregarPedidos (processados e normalizados):", processedData);
+
+                renderPedidos(processedData);
+
+                if (filtro && $('.rota-item[data-destino="' + filtro + '"]').hasClass('selected')) {
+                    atualizarResumo(processedData, filtro, valorRotaDisplay, valorRotaNumerico);
+                } else {
+                    $("#summaryPanel").hide();
+                }
+
+                // O resumo geral DEVE sempre usar allPedidosData, que são os dados completos e já normalizados na inicialização
+                atualizarResumoGeral(allPedidosData);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                console.error("Erro ao carregar pedidos da API:", textStatus, errorThrown);
+                let tbody = $("#pedidosTable tbody");
+                tbody.empty();
+                tbody.append('<tr><td colspan="16" style="text-align:center; color: red;">Erro ao carregar pedidos. Verifique o console.</td></tr>');
+            });
+        }
+
+        $(document).ready(function () {
+            // CRÍTICO: Serializar Model.Pedidos diretamente no JavaScript e processar VLATEND e StatusCarregamento imediatamente.
+            // Aplica a normalização logo na inicialização para todos os pedidos do Model.
+            allPedidosData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Pedidos));
+            allPedidosData = allPedidosData.map(p => normalizePedidoProperties(p));
+
+            console.log("allPedidosData ao carregar a página (inicialização, pós-normalização):", allPedidosData);
+            if (allPedidosData.length > 0) {
+                console.log("Primeiro item de allPedidosData (inicialização, pós-normalização):", allPedidosData[0]);
+                console.log("Tipo de VLATEND no primeiro item (inicialização, pós-normalização):", typeof allPedidosData[0].VLATEND);
+                console.log("Valor de VLATEND no primeiro item (inicialização, pós-normalização):", allPedidosData[0].VLATEND);
+                console.log("StatusCarregamento no primeiro item (inicialização, pós-normalização):", allPedidosData[0].StatusCarregamento);
+            }
+
+            renderPedidos(allPedidosData);
+            $("#summaryPanel").hide();
+            atualizarResumoGeral(allPedidosData);
+
+            $(".rota-item").click(function () {
+                $(".rota-item").removeClass("selected");
+                $(this).addClass("selected");
+                const destino = $(this).data("destino");
+                const valorRotaDisplay = $(this).data("valor-display");
+                const valorRotaNumerico = parseCurrencyToFloat($(this).data("valor-numerico"));
+
+                carregarPedidos(destino, valorRotaDisplay, valorRotaNumerico);
+                $("#pedidoSearch").val('');
+            });
+
+            $("#btnBuscarPedido").click(function () {
+                const filtro = $("#pedidoSearch").val().trim();
+                if (!filtro) {
+                    alert("Digite o número do pedido ou destino para buscar.");
+                    return;
+                }
+
+                // Filtra os pedidos já normalizados em allPedidosData
+                const filteredLocalPedidos = allPedidosData.filter(p =>
+                    (p.Numped && p.Numped.toString().includes(filtro)) ||
+                    (p.Destino && p.Destino.toLowerCase().includes(filtro.toLowerCase()))
+                );
+                renderPedidos(filteredLocalPedidos);
+                $("#summaryPanel").hide();
+                atualizarResumoGeral(allPedidosData); // O resumo geral ainda usa todos os dados normalizados
+            });
+
+            $("#btnLimparFiltro").click(function () {
+                $("#pedidoSearch").val('');
+                $(".rota-item").removeClass("selected");
+                renderPedidos(allPedidosData); // Mostra todos os pedidos normalizados
+                $("#summaryPanel").hide();
+                atualizarResumoGeral(allPedidosData);
+            });
         });
     </script>
+}
+
+@functions {
+    private static string FormatDate(string? dateStr)
+    {
+        if (string.IsNullOrWhiteSpace(dateStr))
+            return "-";
+
+        if (DateTime.TryParse(dateStr, out var dt))
+            return dt.ToString("dd/MM/yyyy");
+
+        return dateStr;
+    }
 }

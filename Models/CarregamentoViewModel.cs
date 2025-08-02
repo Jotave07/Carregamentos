@@ -4,8 +4,8 @@ namespace Carregamentos.Models
 {
     public class CarregamentoViewModel
     {
-        public Dictionary<string, decimal> RotasAgrupadas { get; set; } = new Dictionary<string, decimal>();
-        public List<Pedido> Pedidos { get; set; } = new List<Pedido>();
+        public Dictionary<string, decimal> RotasAgrupadas { get; set; } = new();
+        public List<Pedido> Pedidos { get; set; } = new();
         public string? NumPedFilter { get; set; }
 
         public decimal TotalVlAtend { get; set; }
