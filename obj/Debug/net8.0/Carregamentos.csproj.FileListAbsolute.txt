@@ -73,3 +73,10 @@ C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - 
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\Carregamentos.pdb
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\Carregamentos.genruntimeconfig.cache
 C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\ref\Carregamentos.dll
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\web.config
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\appsettings.Development.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\appsettings.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\Carregamentos.deps.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\Carregamentos.runtimeconfig.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\bin\Debug\net8.0\publish\Carregamentos.staticwebassets.endpoints.json
+C:\Users\logistica2\Desktop\Desenvolvimento\Carregamentos - web\Carregamentos - v1\Carregamentos\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
